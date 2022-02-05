@@ -1,16 +1,3 @@
-DROP TABLE dept_emp CASCADE;
-CREATE TABLE dept_emp (
-    emp_no INT NOT NULL,
-    dept_no VARCHAR(4) NOT NULL,
-    from_date DATE NOT NULL,
-    to_date DATE NOT NULL,
-    FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-    FOREIGN KEY (dept_no) REFERENCES departments (dept_no),
-    PRIMARY KEY (emp_no, dept_no)
-);
-
-SELECT * FROM dept_emp;
-
 -- Deliverable 1
 -- Retirement titles - holds all the titles of employees who were born between January 1, 1952 
 -- and December 31, 1955.
@@ -57,12 +44,29 @@ SELECT DISTINCT ON(e.emp_no) e.emp_no,
 		ti.title
 INTO mentorship_eligibilty
 FROM employees AS e
-	INNER JOIN dept_emp AS de
+	INNER JOIN dept_emp AS de 
 		ON (e.emp_no = de.emp_no)
 	INNER JOIN titles as ti
 		ON (e.emp_no = ti.emp_no)
 WHERE (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 	     AND (de.to_date = '9999-01-01')
 ORDER BY e.emp_no;
+
+-- Additional queries for summary section
+-- Total number of retirement-age employees
+SELECT COUNT(ut.title)
+FROM unique_titles AS ut
+
+-- Numbers of mentors by title 
+SELECT COUNT(me.title), me.title
+FROM mentorship_eligibilty AS me
+GROUP BY me.title
+ORDER BY me.count DESC;
+
+
+
+
+
+
 
 
