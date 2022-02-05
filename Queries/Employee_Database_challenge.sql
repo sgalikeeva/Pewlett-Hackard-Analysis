@@ -62,11 +62,3 @@ SELECT COUNT(me.title), me.title
 FROM mentorship_eligibilty AS me
 GROUP BY me.title
 ORDER BY me.count DESC;
-
-
-
-
-
-
-
-
